@@ -126,7 +126,7 @@ keywords: [{comma-separated keywords}]
 {3-5 unresolved questions that the review agents should investigate}
 ```
 
-**Length requirement:** The body (everything after the frontmatter closing `---`) must be 300-500 words. Count carefully. If a draft is under 300 words, expand the Problem Statement, Proposed Solution, or Open Questions sections. If over 500 words, trim.
+**Length requirement:** The body (everything after the frontmatter closing `---`, excluding markdown headings) must be 300-500 words. This is a hard limit — count the words in each section's content and sum them. If a draft is under 300 words, expand the Problem Statement, Proposed Solution, or Open Questions sections. If over 500 words, trim aggressively — cut adjectives, merge sentences, shorten lists. Err on the side of concise. Do not exceed 500 words.
 
 **Also create** an empty `pipeline/{slug}/notes.md` file for each idea. Downstream agents will append their verdicts to this file. Write it with no content (empty file).
 
@@ -134,7 +134,7 @@ keywords: [{comma-separated keywords}]
 
 ## Step 7 — Update Registry
 
-Append one row per idea to `logs/idea-registry.md` for ALL ideas generated this run — both selected ideas and any duplicates discovered in Step 3.
+Append one row per idea to `logs/idea-registry.md` for ALL ideas generated this run — both selected ideas AND any duplicates discovered in Step 3. This is critical: duplicates MUST be appended to the registry so future runs can see them. If you found N duplicates in Step 3, the registry should gain N duplicate rows plus the selected idea rows.
 
 The table has these columns (match the existing header row exactly):
 
