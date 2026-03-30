@@ -1,8 +1,8 @@
 # Review Agents Tasks
 
 ## 1. Agent profiles configuration
-- [ ] Create `config/agent-profiles.md` with role definitions for all 5 agent roles (PM, Market, Tech, CFO, Decision)
-- [ ] Define each role's: picks up status, promotes to status, mandate, evaluation criteria, artifact produced, delegation targets, failure threshold, and tone/personality
+- [x] Create `config/agent-profiles.md` with role definitions for all 5 agent roles (PM, Market, Tech, CFO, Decision)
+- [x] Define each role's: picks up status, promotes to status, mandate, evaluation criteria, artifact produced, delegation targets, failure threshold, and tone/personality
 
 ## 2. Product Engineer (PM) agent command
 - [ ] Create `.claude/commands/agent-pm.md` with PM agent prompt

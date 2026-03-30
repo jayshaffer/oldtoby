@@ -1,0 +1,31 @@
+{
+  "schedule": {
+    "cron": "0 2 * * *",
+    "timezone": "America/Denver"
+  },
+  "brainstorm": {
+    "ideas_per_run": 5,
+    "raw_sketches": 10,
+    "dedup_check": true,
+    "self_critique": true
+  },
+  "agents": {
+    "max_iterations_per_idea": 5,
+    "circuit_breaker_action": "decision-agent",
+    "max_reconciliation_loops": 2,
+    "refresh_pass_on_upstream_change": true
+  },
+  "context": {
+    "warn_total_tokens": 8000,
+    "bloat_kill_signal": true
+  },
+  "model": {
+    "brainstorm": "claude-sonnet-4-20250514",
+    "agents": "claude-sonnet-4-20250514"
+  },
+  "logging": {
+    "verbose": true,
+    "metrics": true,
+    "log_brainstorm_critique": true
+  }
+}

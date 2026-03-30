@@ -1,0 +1,16 @@
+{
+  "total_ideas_generated": 0,
+  "total_promoted": 0,
+  "total_killed": 0,
+  "total_duplicates": 0,
+  "pass_rates": {
+    "pm": 0.0,
+    "market": 0.0,
+    "tech": 0.0,
+    "cfo": 0.0,
+    "decision": 0.0
+  },
+  "avg_iterations_to_promotion": 0.0,
+  "avg_iterations_to_kill": 0.0,
+  "last_updated": ""
+}
