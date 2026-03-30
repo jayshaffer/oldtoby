@@ -28,7 +28,7 @@ All four files follow the same template structure. Each agent is a self-containe
 **Files:**
 - Create: `.claude/commands/agent-pm.md`
 
-The PM agent is the first in the review chain. It picks up `brainstormed` ideas, evaluates them for coherence/specificity/differentiation, produces `prd.md`, and promotes to `prd-ready`. It cannot delegate backward (first in chain). It handles two re-entry modes: human feedback (via `feedback.md`) and decision agent send-back.
+The PM agent is the first in the review chain. It picks up `brainstormed` ideas, evaluates them for coherence/specificity/differentiation, produces `prd.md`, and promotes to `prd-ready`. It cannot delegate backward (first in chain). It handles three re-entry modes: human feedback (via `feedback.md`), decision agent send-back, and self-refinement (own prior `refine` verdict).
 
 - [ ] **Step 1: Write `.claude/commands/agent-pm.md`**
 
@@ -63,9 +63,11 @@ Check the following conditions to determine your processing mode:
 
 2. **Decision agent send-back:** If `notes.md` contains a prior entry with verdict `delegate-back:pm`, find the most recent such entry and read its Delegation Rationale. Your job is to **revise `prd.md`** to address the specific gap identified — do NOT restart the full evaluation. Mark your notes entry with `Re-entry type: decision-refinement`.
 
-3. **Refresh pass:** If `notes.md` already contains a `[Product Engineer]` entry AND there is a more recent entry from another agent that delegated back through the chain (not directly to you), this is a refresh pass. Read your prior work, read the updated upstream artifacts, and confirm or revise your verdict. Mark your notes entry with `Pass type: refresh`. Include a `Changes from prior iteration` section.
+3. **Self-refinement:** If `notes.md` contains a prior `[Product Engineer]` entry with verdict `refine`, find the most recent such entry and read its Refinement Rationale. Your job is to **revise `prd.md`** to address your own noted concerns. Mark your notes entry with `Re-entry type: self-refinement`.
 
-4. **Initial evaluation:** If none of the above apply, this is a fresh evaluation. Mark your notes entry with `Re-entry type: initial` and `Pass type: full`.
+4. **Refresh pass:** If `notes.md` already contains a `[Product Engineer]` entry AND there is a more recent entry from another agent that delegated back through the chain (not directly to you), this is a refresh pass. Read your prior work, read the updated upstream artifacts, and confirm or revise your verdict. Mark your notes entry with `Pass type: refresh`. Include a `Changes from prior iteration` section.
+
+5. **Initial evaluation:** If none of the above apply, this is a fresh evaluation. Mark your notes entry with `Re-entry type: initial` and `Pass type: full`.
 
 ---
 
@@ -85,13 +87,14 @@ Also verify the idea respects `config/constraints.md` — domain focus, technica
 
 Make a verdict:
 - **pass** — The idea is coherent, specific, and differentiated. Produce a PRD.
+- **refine** — The idea shows potential but the PRD needs more work before progressing. You see something worth developing but it's not ready for market analysis yet. Set `Next status: brainstormed` to keep it at the PM stage for another pass. Still produce or update the PRD with your best effort so far.
 - **fail** — The idea is incoherent, trivially duplicative, or too vague to produce a meaningful PRD even after best-effort interpretation. Kill it.
 
 ---
 
-## Step 4 — Produce Artifact (if pass)
+## Step 4 — Produce Artifact (if pass or refine)
 
-If your verdict is `pass`, write `$ARGUMENTS/prd.md` with the following sections:
+If your verdict is `pass` or `refine`, write or update `$ARGUMENTS/prd.md` with the following sections:
 
 ```
 # PRD: {Idea Title}
@@ -134,10 +137,10 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ```
 ---
 ## [Product Engineer] — {ISO 8601 timestamp}
-**Verdict:** {pass | fail}
-**Next status:** {prd-ready | killed}
+**Verdict:** {pass | refine | fail}
+**Next status:** {prd-ready | brainstormed | killed}
 **Iteration:** {current iteration number from one-pager frontmatter + 1}
-**Re-entry type:** {initial | human-feedback | decision-refinement}
+**Re-entry type:** {initial | human-feedback | decision-refinement | self-refinement}
 **Pass type:** {full | refresh}
 
 ### Assessment
@@ -146,19 +149,23 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ### Concerns
 {What concerns remain even if passing? What should downstream agents watch for?}
 
+### Refinement Rationale
+{Only if verdict is refine. What needs more work and why the idea isn't ready to progress.}
+
 ### Failure Rationale
 {Only if verdict is fail. Why is this idea being killed? Be specific.}
 
 ### Changes from prior iteration
-{Only if refresh pass. What changed from your prior assessment and why.}
+{Only if refresh pass or self-refinement re-entry. What changed from your prior assessment and why.}
 ```
 
 **Length:** 200-400 words for the notes entry.
 
 Include only the sections relevant to your verdict:
 - `pass` → Assessment + Concerns (both required)
+- `refine` → Assessment + Refinement Rationale (both required)
 - `fail` → Failure Rationale (required)
-- Refresh → include Changes from prior iteration
+- Refresh / self-refinement → include Changes from prior iteration
 
 ---
 
@@ -169,9 +176,9 @@ Print a plain-text summary:
 ```
 PM Agent complete.
 Idea: {slug}
-Verdict: {pass | fail}
-Next status: {prd-ready | killed}
-Processing mode: {initial | human-feedback | decision-refinement | refresh}
+Verdict: {pass | refine | fail}
+Next status: {prd-ready | brainstormed | killed}
+Processing mode: {initial | human-feedback | decision-refinement | self-refinement | refresh}
 ```
 ```
 
@@ -235,9 +242,11 @@ Check the following conditions:
 
 1. **Decision agent send-back:** If `notes.md` contains a prior entry with verdict `delegate-back:market`, find the most recent such entry and read its Delegation Rationale. Your job is to **revise `market-analysis.md`** to address the specific gap identified. Mark `Re-entry type: decision-refinement`.
 
-2. **Refresh pass:** If `notes.md` already contains a `[Market Fit Analyzer]` entry AND there is a more recent upstream change (e.g., PM revised `prd.md`), this is a refresh pass. Read the updated `prd.md`, read your prior `market-analysis.md`, and confirm or revise your verdict. Mark `Pass type: refresh`. Include `Changes from prior iteration`.
+2. **Self-refinement:** If `notes.md` contains a prior `[Market Fit Analyzer]` entry with verdict `refine`, find the most recent such entry and read its Refinement Rationale. Revise `market-analysis.md` to address your own noted concerns. Mark `Re-entry type: self-refinement`.
 
-3. **Initial evaluation:** If none of the above apply, this is a fresh evaluation. Mark `Re-entry type: initial` and `Pass type: full`.
+3. **Refresh pass:** If `notes.md` already contains a `[Market Fit Analyzer]` entry AND there is a more recent upstream change (e.g., PM revised `prd.md`), this is a refresh pass. Read the updated `prd.md`, read your prior `market-analysis.md`, and confirm or revise your verdict. Mark `Pass type: refresh`. Include `Changes from prior iteration`.
+
+4. **Initial evaluation:** If none of the above apply, this is a fresh evaluation. Mark `Re-entry type: initial` and `Pass type: full`.
 
 ---
 
@@ -257,14 +266,15 @@ Also verify alignment with `config/constraints.md` market preferences.
 
 Make a verdict:
 - **pass** — A reachable market exists with plausible pricing and a real competitive moat. Produce market analysis.
+- **refine** — The market shows potential but the analysis needs more work before progressing (e.g., incomplete competitive landscape, weak acquisition thesis). Set `Next status: prd-ready` to keep it at the Market stage for another pass. Still produce or update the market analysis with your best effort so far.
 - **fail** — No reachable market, no credible acquisition path, or the competitive landscape makes entry impossible.
 - **delegate-back:pm** — The PRD is the root cause of market concerns (e.g., target customer is too vague for market sizing, feature scope doesn't match a paying market). Send back to PM for revision.
 
 ---
 
-## Step 4 — Produce Artifact (if pass)
+## Step 4 — Produce Artifact (if pass or refine)
 
-If your verdict is `pass`, write `$ARGUMENTS/market-analysis.md` with the following sections:
+If your verdict is `pass` or `refine`, write or update `$ARGUMENTS/market-analysis.md` with the following sections:
 
 ```
 # Market Analysis: {Idea Title}
@@ -304,10 +314,10 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ```
 ---
 ## [Market Fit Analyzer] — {ISO 8601 timestamp}
-**Verdict:** {pass | fail | delegate-back:pm}
-**Next status:** {market-ready | killed | brainstormed}
+**Verdict:** {pass | refine | fail | delegate-back:pm}
+**Next status:** {market-ready | prd-ready | killed | brainstormed}
 **Iteration:** {current iteration number from one-pager frontmatter + 1}
-**Re-entry type:** {initial | decision-refinement}
+**Re-entry type:** {initial | decision-refinement | self-refinement}
 **Pass type:** {full | refresh}
 
 ### Assessment
@@ -316,6 +326,9 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ### Concerns
 {What market risks remain even if passing?}
 
+### Refinement Rationale
+{Only if verdict is refine. What needs more work and why the analysis isn't ready to progress.}
+
 ### Failure Rationale
 {Only if verdict is fail.}
 
@@ -323,16 +336,17 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 {Only if verdict is delegate-back. What's wrong with the PRD that caused market concerns? What specific changes does the PM need to make?}
 
 ### Changes from prior iteration
-{Only if refresh pass.}
+{Only if refresh pass or self-refinement re-entry.}
 ```
 
 **Length:** 200-400 words.
 
 Include only relevant sections:
 - `pass` → Assessment + Concerns
+- `refine` → Assessment + Refinement Rationale
 - `fail` → Failure Rationale
 - `delegate-back:pm` → Delegation Rationale
-- Refresh → include Changes from prior iteration
+- Refresh / self-refinement → include Changes from prior iteration
 
 ---
 
@@ -343,9 +357,9 @@ Print a plain-text summary:
 ```
 Market Agent complete.
 Idea: {slug}
-Verdict: {pass | fail | delegate-back:pm}
-Next status: {market-ready | killed | brainstormed}
-Processing mode: {initial | decision-refinement | refresh}
+Verdict: {pass | refine | fail | delegate-back:pm}
+Next status: {market-ready | prd-ready | killed | brainstormed}
+Processing mode: {initial | decision-refinement | self-refinement | refresh}
 ```
 ```
 
@@ -408,9 +422,11 @@ Check the following conditions:
 
 1. **Decision agent send-back:** If `notes.md` contains a prior entry with verdict `delegate-back:tech`, find the most recent such entry and read its Delegation Rationale. Revise `solution-doc.md` to address the specific gap. Mark `Re-entry type: decision-refinement`.
 
-2. **Refresh pass:** If `notes.md` already contains a `[Technical Lead]` entry AND an upstream artifact (`prd.md` or `market-analysis.md`) has been revised since your last assessment, this is a refresh pass. Read the updated artifacts and your prior `solution-doc.md`, then confirm or revise. Mark `Pass type: refresh`. Include `Changes from prior iteration`.
+2. **Self-refinement:** If `notes.md` contains a prior `[Technical Lead]` entry with verdict `refine`, find the most recent such entry and read its Refinement Rationale. Revise `solution-doc.md` to address your own noted concerns. Mark `Re-entry type: self-refinement`.
 
-3. **Initial evaluation:** If none of the above apply, mark `Re-entry type: initial` and `Pass type: full`.
+3. **Refresh pass:** If `notes.md` already contains a `[Technical Lead]` entry AND an upstream artifact (`prd.md` or `market-analysis.md`) has been revised since your last assessment, this is a refresh pass. Read the updated artifacts and your prior `solution-doc.md`, then confirm or revise. Mark `Pass type: refresh`. Include `Changes from prior iteration`.
+
+4. **Initial evaluation:** If none of the above apply, mark `Re-entry type: initial` and `Pass type: full`.
 
 ---
 
@@ -431,15 +447,16 @@ Verify the idea respects `config/constraints.md` technical boundaries (web app o
 
 Make a verdict:
 - **pass** — Technically viable, buildable within reasonable constraints. Produce solution doc.
+- **refine** — The idea is technically feasible but the solution doc needs more work before progressing (e.g., incomplete cost estimates, unresolved architecture questions). Set `Next status: market-ready` to keep it at the Tech stage for another pass. Still produce or update the solution doc with your best effort so far.
 - **fail** — Requires technology that doesn't exist, build cost exceeds any reasonable budget for the market size, or infrastructure costs make unit economics impossible.
 - **delegate-back:pm** — PRD scope is unbuildable as specced. The PM needs to revise scope.
 - **delegate-back:market** — Market assumptions drive impossible technical requirements. The market analysis needs revision.
 
 ---
 
-## Step 4 — Produce Artifact (if pass)
+## Step 4 — Produce Artifact (if pass or refine)
 
-If your verdict is `pass`, write `$ARGUMENTS/solution-doc.md` with the following sections:
+If your verdict is `pass` or `refine`, write or update `$ARGUMENTS/solution-doc.md` with the following sections:
 
 ```
 # Solution Doc: {Idea Title}
@@ -482,10 +499,10 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ```
 ---
 ## [Technical Lead] — {ISO 8601 timestamp}
-**Verdict:** {pass | fail | delegate-back:pm | delegate-back:market}
-**Next status:** {tech-ready | killed | brainstormed | prd-ready}
+**Verdict:** {pass | refine | fail | delegate-back:pm | delegate-back:market}
+**Next status:** {tech-ready | market-ready | killed | brainstormed | prd-ready}
 **Iteration:** {current iteration number from one-pager frontmatter + 1}
-**Re-entry type:** {initial | decision-refinement}
+**Re-entry type:** {initial | decision-refinement | self-refinement}
 **Pass type:** {full | refresh}
 
 ### Assessment
@@ -494,6 +511,9 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ### Concerns
 {Technical risks and unknowns that remain even if passing.}
 
+### Refinement Rationale
+{Only if verdict is refine. What needs more work and why the solution doc isn't ready to progress.}
+
 ### Failure Rationale
 {Only if verdict is fail.}
 
@@ -501,7 +521,7 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 {Only if delegate-back. What upstream artifact issue caused the technical concern? What specific changes does the target agent need to make?}
 
 ### Changes from prior iteration
-{Only if refresh pass.}
+{Only if refresh pass or self-refinement re-entry.}
 ```
 
 **Length:** 200-400 words.
@@ -513,9 +533,9 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ```
 Tech Lead Agent complete.
 Idea: {slug}
-Verdict: {pass | fail | delegate-back:{role}}
-Next status: {tech-ready | killed | brainstormed | prd-ready}
-Processing mode: {initial | decision-refinement | refresh}
+Verdict: {pass | refine | fail | delegate-back:{role}}
+Next status: {tech-ready | market-ready | killed | brainstormed | prd-ready}
+Processing mode: {initial | decision-refinement | self-refinement | refresh}
 ```
 ```
 
@@ -577,9 +597,11 @@ Check the following conditions:
 
 1. **Decision agent send-back:** If `notes.md` contains a prior entry with verdict `delegate-back:cfo`, find the most recent such entry and read its Delegation Rationale. Revise `financial-assessment.md` to address the specific gap. Mark `Re-entry type: decision-refinement`.
 
-2. **Refresh pass:** If `notes.md` already contains a `[CFO]` entry AND an upstream artifact (`solution-doc.md`, `prd.md`, or `market-analysis.md`) has been revised since your last assessment, this is a refresh pass. Read the updated cost/pricing sections and your prior `financial-assessment.md`, then confirm or revise. Mark `Pass type: refresh`. Include `Changes from prior iteration`.
+2. **Self-refinement:** If `notes.md` contains a prior `[CFO]` entry with verdict `refine`, find the most recent such entry and read its Refinement Rationale. Revise `financial-assessment.md` to address your own noted concerns. Mark `Re-entry type: self-refinement`.
 
-3. **Initial evaluation:** If none of the above apply, mark `Re-entry type: initial` and `Pass type: full`.
+3. **Refresh pass:** If `notes.md` already contains a `[CFO]` entry AND an upstream artifact (`solution-doc.md`, `prd.md`, or `market-analysis.md`) has been revised since your last assessment, this is a refresh pass. Read the updated cost/pricing sections and your prior `financial-assessment.md`, then confirm or revise. Mark `Pass type: refresh`. Include `Changes from prior iteration`.
+
+4. **Initial evaluation:** If none of the above apply, mark `Re-entry type: initial` and `Pass type: full`.
 
 ---
 
@@ -602,6 +624,7 @@ Cross-reference against `config/constraints.md` market preferences: price range 
 
 Make a verdict:
 - **pass** — The numbers work with conservative assumptions. Produce financial assessment.
+- **refine** — The financials show potential but the assessment needs more work before progressing (e.g., missing sensitivity analysis, incomplete cost structure). Set `Next status: tech-ready` to keep it at the CFO stage for another pass. Still produce or update the financial assessment with your best effort so far.
 - **fail** — Unit economics are negative with no credible path to positive, capital requirements are unreasonable for the opportunity size, or break-even is beyond any reasonable horizon.
 - **delegate-back:pm** — PRD scope drives unrealistic costs (e.g., feature bloat makes unit economics impossible).
 - **delegate-back:market** — Pricing/revenue model is the root issue (e.g., market won't bear the price needed for positive unit economics).
@@ -609,9 +632,9 @@ Make a verdict:
 
 ---
 
-## Step 4 — Produce Artifact (if pass)
+## Step 4 — Produce Artifact (if pass or refine)
 
-If your verdict is `pass`, write `$ARGUMENTS/financial-assessment.md` with the following sections:
+If your verdict is `pass` or `refine`, write or update `$ARGUMENTS/financial-assessment.md` with the following sections:
 
 ```
 # Financial Assessment: {Idea Title}
@@ -654,10 +677,10 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ```
 ---
 ## [CFO] — {ISO 8601 timestamp}
-**Verdict:** {pass | fail | delegate-back:pm | delegate-back:market | delegate-back:tech}
-**Next status:** {cfo-ready | killed | brainstormed | prd-ready | market-ready}
+**Verdict:** {pass | refine | fail | delegate-back:pm | delegate-back:market | delegate-back:tech}
+**Next status:** {cfo-ready | tech-ready | killed | brainstormed | prd-ready | market-ready}
 **Iteration:** {current iteration number from one-pager frontmatter + 1}
-**Re-entry type:** {initial | decision-refinement}
+**Re-entry type:** {initial | decision-refinement | self-refinement}
 **Pass type:** {full | refresh}
 
 ### Assessment
@@ -666,6 +689,9 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ### Concerns
 {Financial risks that remain even if passing. What to watch.}
 
+### Refinement Rationale
+{Only if verdict is refine. What needs more work and why the assessment isn't ready to progress.}
+
 ### Failure Rationale
 {Only if verdict is fail.}
 
@@ -673,7 +699,7 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 {Only if delegate-back. What upstream issue is driving the financial problem? What specific changes does the target agent need to make?}
 
 ### Changes from prior iteration
-{Only if refresh pass.}
+{Only if refresh pass or self-refinement re-entry.}
 ```
 
 **Length:** 200-400 words.
@@ -685,9 +711,9 @@ Append the following structured entry to `$ARGUMENTS/notes.md`. Do NOT overwrite
 ```
 CFO Agent complete.
 Idea: {slug}
-Verdict: {pass | fail | delegate-back:{role}}
-Next status: {cfo-ready | killed | brainstormed | prd-ready | market-ready}
-Processing mode: {initial | decision-refinement | refresh}
+Verdict: {pass | refine | fail | delegate-back:{role}}
+Next status: {cfo-ready | tech-ready | killed | brainstormed | prd-ready | market-ready}
+Processing mode: {initial | decision-refinement | self-refinement | refresh}
 ```
 ```
 
