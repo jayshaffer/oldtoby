@@ -38,14 +38,14 @@ This is the composed master task list for the pipeline orchestrator system. Each
 ## Phase 5: Pipeline Orchestrator
 > See [pipeline-orchestrator/tasks.md](pipeline-orchestrator/tasks.md) — Tasks 2–4
 
-- [ ] Create `.claude/commands/run-pipeline.md` with orchestrator prompt
-- [ ] Implement Phase 1: Idempotency check + brainstorm invocation
-- [ ] Implement Phase 2: Pipeline scan, manual injection, circuit breaker, stage-ordered dispatch, verdict reading
-- [ ] Implement Phase 3: Reconciliation loop
-- [ ] Implement Phase 4: Terminal moves (promoted → `review/`, killed → `trash/`)
-- [ ] Implement Phase 5: Run log, changelog, metrics, terminal bell
-- [ ] Create send-back helper command
-- [ ] Test orchestrator (dispatch, ordering, idempotency, circuit breaker, terminal moves, injection, reconciliation)
+- [x] Create `.claude/commands/run-pipeline.md` with orchestrator prompt
+- [x] Implement Phase 1: Idempotency check + brainstorm invocation
+- [x] Implement Phase 2: Pipeline scan, manual injection, circuit breaker, stage-ordered dispatch, verdict reading
+- [x] Implement Phase 3: Reconciliation loop
+- [x] Implement Phase 4: Terminal moves (promoted → `review/`, killed → `trash/`)
+- [x] Implement Phase 5: Run log, changelog, metrics, terminal bell
+- [x] Create send-back helper command
+- [x] Test orchestrator (dispatch, ordering, idempotency, circuit breaker, terminal moves, injection, reconciliation)
 
 ## Phase 6: Logging Implementation
 > See [config-and-logging/tasks.md](config-and-logging/tasks.md) — Tasks 3–5
