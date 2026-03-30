@@ -81,8 +81,8 @@ For circuit-breaker ideas (from Step 2.3), always dispatch to `/agent-decision {
 1. Print: `Dispatching {slug} (status: {status}) → {agent name}`
 2. Spawn the appropriate agent as a subagent, passing the idea's folder path (e.g., `pipeline/{slug}`) as the argument.
 3. Wait for the subagent to complete.
-4. If the subagent fails, log the error, leave the idea's status unchanged, and continue to the next idea.
-5. If the subagent succeeds, proceed to Step 2.5 for this idea before dispatching the next.
+4. If the subagent fails or its output contains `ERROR:`, log the error (record slug, agent, and error detail for the run log's Errors section), leave the idea's status unchanged, and continue to the next idea.
+5. If the subagent succeeds (no `ERROR:` in output), proceed to Step 2.5 for this idea before dispatching the next.
 
 ### Step 2.5 — Verdict Reading & State Update
 
@@ -183,9 +183,32 @@ Create `logs/runs/{today}.log.md` with the pipeline snapshot. Use this format:
 
 ## Dispatch Log
 {For each idea dispatched, one line: "{slug}: {agent} → verdict={verdict}, new status={status}"}
+
+## Errors
+{For each error encountered during the run, one entry:}
+- **{timestamp}** — `{slug or phase}`: {error description}
+
+{If no errors occurred, print: "No errors."}
+
+{Error types to capture:}
+- Subagent failure: "{slug}: {agent} subagent failed — {error detail or 'unknown'}. Status unchanged."
+- Missing constraints: "Brainstorm aborted — constraints.md not found."
+- Unrecognized status: "{slug}: unrecognized status '{value}' — skipped."
+- Malformed verdict: "{slug}: malformed verdict in notes.md — treated as no-op."
+- Move failure: "{slug}: failed to move to {review|trash}/ — {error detail}."
+
+## Partial Progress
+{If the run did not complete all phases (e.g., usage limit hit), record:}
+- **Last completed phase:** {1|2|3|4|5}
+- **Ideas processed before interruption:** {list of slugs with their final status}
+- **Ideas not yet processed:** {list of slugs still pending dispatch}
+
+{If the run completed normally, print: "Run completed normally."}
 ```
 
 Count `review/` and `trash/` folders by listing those directories. Count registry entries by reading `logs/idea-registry.md`.
+
+**Tracking errors throughout the run:** As you execute Phases 1–4, maintain a running list of errors encountered. Each time you log an error to stdout (subagent failure, skipped folder, malformed verdict, etc.), also record it for inclusion in the Errors section of the run log. If the run is interrupted before Phase 5 (e.g., usage limit), write a partial run log with whatever information you have — the run log should always be written, even if incomplete.
 
 ### Step 5.2 — Append Changelog
 
