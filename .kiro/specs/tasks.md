@@ -12,7 +12,7 @@ This is the composed master task list for the pipeline orchestrator system. Each
 > See [brainstorm-agent/tasks.md](brainstorm-agent/tasks.md) — Tasks 1–4
 
 - [x] Create constraints file template
-- [ ] Create `.claude/commands/brainstorm.md` with full prompt (context loading, generation, dedup, self-critique, selection, write, registry update)
+- [x] Create `.claude/commands/brainstorm.md` with full prompt (context loading, generation, dedup, self-critique, selection, write, registry update)
 - [ ] Validate one-pager template (frontmatter, sections, word count)
 - [ ] Test brainstorm agent (empty registry, dedup, saturation, format)
 
