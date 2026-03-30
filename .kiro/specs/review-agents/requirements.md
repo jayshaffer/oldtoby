@@ -9,10 +9,8 @@ so that downstream agents have a well-defined product scope to evaluate.
 - WHEN processing, THE SYSTEM SHALL read `one-pager.md` fully, check for `feedback.md` (human re-entry), and read `notes.md` fully.
 - WHEN the idea is coherent, specific, and non-trivially differentiated, THE SYSTEM SHALL write `prd.md` and set verdict to `pass` with `Next status: prd-ready`.
 - WHEN the idea is incoherent or trivially duplicative, THE SYSTEM SHALL set verdict to `fail` with `Next status: killed`.
-- WHEN the idea shows potential but the PRD needs more work before progressing, THE SYSTEM SHALL set verdict to `refine` with `Next status: brainstormed`, keeping the idea at the PM stage for another pass.
 - WHEN `feedback.md` exists (human re-entry), THE SYSTEM SHALL revise the existing PRD to address feedback rather than starting from scratch, and mark notes with `Re-entry type: human-feedback`.
 - WHEN re-entering via decision agent send-back, THE SYSTEM SHALL revise only the specified artifact gap and mark notes with `Re-entry type: decision-refinement`.
-- WHEN re-entering via own prior `refine` verdict, THE SYSTEM SHALL revise the artifact to address its own noted concerns, and mark notes with `Re-entry type: self-refinement`.
 - THE PM AGENT SHALL NOT delegate backward (it is the first agent in the chain).
 
 ## User Story 2: Market Fit Analyzer Agent
@@ -24,7 +22,6 @@ so that technically feasible but commercially unviable ideas are filtered out.
 - WHEN processing, THE SYSTEM SHALL read `one-pager.md` and `prd.md` fully, skim `feedback.md` (headers + verdict only), and read `notes.md` fully.
 - WHEN a reachable market exists with plausible pricing and a real competitive moat, THE SYSTEM SHALL write `market-analysis.md` and set verdict to `pass` with `Next status: market-ready`.
 - WHEN the market is unreachable, pricing is implausible, or there is no moat, THE SYSTEM SHALL set verdict to `fail` with `Next status: killed`.
-- WHEN the market analysis needs more work before progressing (e.g., incomplete competitive landscape, weak acquisition thesis), THE SYSTEM SHALL set verdict to `refine` with `Next status: prd-ready`, keeping the idea at the Market stage for another pass.
 - WHEN the PRD is the root cause of market concerns, THE SYSTEM SHALL set verdict to `delegate-back:pm` with `Next status: brainstormed`.
 
 ## User Story 3: Technical Lead Agent
@@ -36,7 +33,6 @@ so that ideas with unrealistic technical requirements are caught before financia
 - WHEN processing, THE SYSTEM SHALL read `one-pager.md`, `prd.md`, `market-analysis.md`, and `notes.md` fully, and skim `feedback.md`.
 - WHEN the idea is technically viable, THE SYSTEM SHALL write `solution-doc.md` (architecture overview, tech stack, build vs buy, MVP scope, effort estimate, infra cost, risks, scalability, timeline) and set verdict to `pass` with `Next status: tech-ready`.
 - WHEN the idea is technically infeasible or cost-prohibitive to build, THE SYSTEM SHALL set verdict to `fail` with `Next status: killed`.
-- WHEN the solution doc needs more work before progressing (e.g., incomplete cost estimates, unresolved architecture questions), THE SYSTEM SHALL set verdict to `refine` with `Next status: market-ready`, keeping the idea at the Tech stage for another pass.
 - WHEN upstream artifacts (PRD or market analysis) are the root cause, THE SYSTEM SHALL set verdict to `delegate-back:{pm|market}` with appropriate `Next status`.
 
 ## User Story 4: CFO Agent
@@ -48,7 +44,6 @@ so that ideas with broken unit economics don't waste human review time.
 - WHEN processing, THE SYSTEM SHALL read `one-pager.md`, `notes.md`, and `solution-doc.md` cost sections fully; skim `prd.md` and `market-analysis.md` pricing/revenue sections only; skip `solution-doc.md` architecture sections.
 - WHEN the numbers work with conservative assumptions, THE SYSTEM SHALL write `financial-assessment.md` (unit economics, 12-month revenue projections, cost structure, break-even, capital requirements, financial risks, ROI) and set verdict to `pass` with `Next status: cfo-ready`.
 - WHEN the unit economics are broken or capital requirements are unrealistic, THE SYSTEM SHALL set verdict to `fail` with `Next status: killed`.
-- WHEN the financial assessment needs more work before progressing (e.g., missing sensitivity analysis, incomplete cost structure), THE SYSTEM SHALL set verdict to `refine` with `Next status: tech-ready`, keeping the idea at the CFO stage for another pass.
 - WHEN upstream artifacts are the root cause, THE SYSTEM SHALL set verdict to `delegate-back:{pm|market|tech}` with appropriate `Next status`.
 
 ## User Story 5: Agent Processing Contract
@@ -60,7 +55,6 @@ so that the orchestrator can reliably read verdicts and route ideas.
 - WHEN verdict is `pass`, THE SYSTEM SHALL include an Assessment section and a Concerns section (required).
 - WHEN verdict is `fail`, THE SYSTEM SHALL include a Failure Rationale section (required).
 - WHEN verdict is `delegate-back`, THE SYSTEM SHALL include a Delegation Rationale section (required).
-- WHEN verdict is `refine`, THE SYSTEM SHALL include a Refinement Rationale section (required) explaining what needs improvement and why the idea isn't ready to progress.
 - WHEN processing a refresh pass (upstream artifact changed), THE SYSTEM SHALL read the updated artifact and their own prior work, confirm or revise their verdict, and mark with `Pass type: refresh`.
 - WHEN producing artifacts, THE SYSTEM SHALL respect target length guidelines: PRD 800-1200 words, market analysis 600-1000 words, solution doc 800-1200 words, financial assessment 500-800 words, notes entry 200-400 words.
 

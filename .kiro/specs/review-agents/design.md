@@ -64,7 +64,6 @@ Your verdict line IS the output — the orchestrator reads it to determine next 
 ### Concerns
 ### Failure Rationale
 ### Delegation Rationale
-### Refinement Rationale
 ### Changes from prior iteration
 ```
 
