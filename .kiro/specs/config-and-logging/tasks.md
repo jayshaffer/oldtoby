@@ -1,15 +1,15 @@
 # Configuration and Logging Tasks
 
 ## 1. Configuration files
-- [ ] Create `config/pipeline.config.json` with all default values (schedule, brainstorm, agents, context, model, logging sections)
-- [ ] Create `config/agent-profiles.md` with role definitions for PM, Market, Tech, CFO, and Decision agents (picks up status, promotes to status, mandate, evaluates for, produces, can delegate to, failure threshold, tone)
-- [ ] Create `config/constraints.md` with template sections (Domain Focus, Technical Boundaries, Market Preferences, Anti-Patterns, Current Interests) and placeholder guidance comments
+- [x] Create `config/pipeline.config.json` with all default values (schedule, brainstorm, agents, context, model, logging sections)
+- [x] Create `config/agent-profiles.md` with role definitions for PM, Market, Tech, CFO, and Decision agents (picks up status, promotes to status, mandate, evaluates for, produces, can delegate to, failure threshold, tone)
+- [x] Create `config/constraints.md` with template sections (Domain Focus, Technical Boundaries, Market Preferences, Anti-Patterns, Current Interests) and placeholder guidance comments
 
 ## 2. Log file initialization
-- [ ] Create `logs/changelog.md` with header
-- [ ] Create `logs/idea-registry.md` with header and table format (Slug, Title, Problem, Keywords, Status, Date, Outcome)
-- [ ] Create `logs/metrics.json` with initial zero counters for all metrics
-- [ ] Create `logs/runs/` directory
+- [x] Create `logs/changelog.md` with header
+- [x] Create `logs/idea-registry.md` with header and table format (Slug, Title, Problem, Keywords, Status, Date, Outcome)
+- [x] Create `logs/metrics.json` with initial zero counters for all metrics
+- [x] Create `logs/runs/` directory
 
 ## 3. Logging implementation in orchestrator
 - [ ] Implement run log writing: pipeline snapshot with status counts, ideas per status, review/trash counts, iterations burned, reconciliation loops used, registry stats, thematic saturation

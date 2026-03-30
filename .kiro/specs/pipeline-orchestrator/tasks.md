@@ -1,11 +1,11 @@
 # Pipeline Orchestrator Tasks
 
 ## 1. Project scaffolding
-- [ ] Create directory structure: `config/`, `pipeline/`, `review/`, `trash/`, `archive/`, `logs/`, `logs/runs/`, `.claude/commands/`
-- [ ] Create `config/pipeline.config.json` with default configuration (schedule, brainstorm settings, agent thresholds, context limits, model config, logging flags)
-- [ ] Create empty `logs/changelog.md` with header
-- [ ] Create empty `logs/idea-registry.md` with header and table format
-- [ ] Create empty `logs/metrics.json` with initial zero counters
+- [x] Create directory structure: `config/`, `pipeline/`, `review/`, `trash/`, `archive/`, `logs/`, `logs/runs/`, `.claude/commands/`
+- [x] Create `config/pipeline.config.json` with default configuration (schedule, brainstorm settings, agent thresholds, context limits, model config, logging flags)
+- [x] Create empty `logs/changelog.md` with header
+- [x] Create empty `logs/idea-registry.md` with header and table format
+- [x] Create empty `logs/metrics.json` with initial zero counters
 
 ## 2. Orchestrator command file
 - [ ] Create `.claude/commands/run-pipeline.md` with the orchestrator prompt

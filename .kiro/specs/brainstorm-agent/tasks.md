@@ -1,8 +1,8 @@
 # Brainstorm Agent Tasks
 
 ## 1. Constraints file template
-- [ ] Create `config/constraints.md` with the suggested section structure: Domain Focus, Technical Boundaries, Market Preferences, Anti-Patterns, Current Interests
-- [ ] Add placeholder content and comments explaining each section's purpose
+- [x] Create `config/constraints.md` with the suggested section structure: Domain Focus, Technical Boundaries, Market Preferences, Anti-Patterns, Current Interests
+- [x] Add placeholder content and comments explaining each section's purpose
 
 ## 2. Brainstorm command file
 - [ ] Create `.claude/commands/brainstorm.md` with the brainstorm agent prompt
