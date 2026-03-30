@@ -50,8 +50,8 @@ This is the composed master task list for the pipeline orchestrator system. Each
 ## Phase 6: Logging Implementation
 > See [config-and-logging/tasks.md](config-and-logging/tasks.md) — Tasks 3–5
 
-- [ ] Implement run log writing and verbose logging
-- [ ] Implement changelog append and registry updates
-- [ ] Implement metrics updates
-- [ ] Implement error logging (subagent failure, missing constraints, unrecognized status, partial progress)
-- [ ] Test logging (snapshot format, changelog fields, append-only registry, metrics correctness)
+- [x] Implement run log writing and verbose logging
+- [x] Implement changelog append and registry updates
+- [x] Implement metrics updates
+- [x] Implement error logging (subagent failure, missing constraints, unrecognized status, partial progress)
+- [x] Test logging (snapshot format, changelog fields, append-only registry, metrics correctness)
