@@ -18,13 +18,13 @@
 - [x] Implement registry update: append all ideas (selected and duplicates) to `logs/idea-registry.md`
 
 ## 3. One-pager template validation
-- [ ] Verify one-pager includes all required frontmatter: Slug, Generated (ISO timestamp), Status (brainstormed), Iteration (0), Keywords
-- [ ] Verify one-pager includes all required sections: Elevator Pitch, Problem Statement, Proposed Solution, Target Customer, Revenue Model, Differentiation, Open Questions
-- [ ] Verify one-pager target length is 300-500 words
+- [x] Verify one-pager includes all required frontmatter: Slug, Generated (ISO timestamp), Status (brainstormed), Iteration (0), Keywords
+- [x] Verify one-pager includes all required sections: Elevator Pitch, Problem Statement, Proposed Solution, Target Customer, Revenue Model, Differentiation, Open Questions
+- [x] Verify one-pager target length is 300-500 words
 
 ## 4. Testing
-- [ ] Test: Run `/brainstorm` with a constraints file and empty registry, verify 5 one-pagers are created in `pipeline/`
-- [ ] Test: Run `/brainstorm` with existing registry entries, verify duplicates are detected and replaced
-- [ ] Test: Verify registry is updated with both selected and duplicate entries
+- [x] Test: Run `/brainstorm` with a constraints file and empty registry, verify 5 one-pagers are created in `pipeline/`
+- [x] Test: Run `/brainstorm` with existing registry entries, verify duplicates are detected and replaced
+- [x] Test: Verify registry is updated with both selected and duplicate entries
 - [ ] Test: Verify thematic saturation warning triggers when 3+ sketches match registry
-- [ ] Test: Verify one-pager format matches the template spec
+- [x] Test: Verify one-pager format matches the template spec
