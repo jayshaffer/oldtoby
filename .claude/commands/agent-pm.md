@@ -11,7 +11,7 @@ Read the following files before doing anything else:
 1. **`config/agent-profiles.md`** — Read the **Product Engineer** section for your mandate, evaluation criteria, tone, and failure threshold.
 2. **`config/constraints.md`** — The operator's domain focus, technical boundaries, market preferences, and anti-patterns. All evaluation must respect these constraints.
 3. **`$ARGUMENTS/one-pager.md`** — Read fully. This is the raw idea you are evaluating. **If this file does not exist, abort immediately and report that the idea folder is missing its one-pager.**
-4. **`$ARGUMENTS/notes.md`** — Read fully. This contains prior agent verdicts and delegation history. If empty or missing, this is a first-pass idea.
+4. **`$ARGUMENTS/notes.md`** — Read fully. This contains prior agent verdicts and delegation history. If empty or missing, this is a first-pass idea. If `notes.md` contains more than 5 entries, focus on the most recent entry from each agent role and the most recent delegation directive — skim older entries for verdict lines only.
 5. **`$ARGUMENTS/feedback.md`** — Check if this file exists. If it does, read it fully. This contains human feedback from the review stage.
 
 ---
@@ -99,6 +99,8 @@ Write `$ARGUMENTS/prd.md` with the following sections:
 **Length:** 800-1200 words. Count the body text (excluding markdown headings). If under 800, expand Problem Definition, User Stories, or Assumptions & Risks. If over 1200, trim aggressively — cut adjectives, merge bullet points, shorten lists.
 
 **On re-entry (Modes 1, 2, 3):** Revise the existing `$ARGUMENTS/prd.md` rather than writing from scratch. Preserve sections that are solid. Focus revisions on the areas flagged by feedback, delegation rationale, or updated upstream context.
+
+**Do not modify `one-pager.md` frontmatter.** The orchestrator handles status and iteration updates — your job is to produce artifacts and append notes only.
 
 ---
 
