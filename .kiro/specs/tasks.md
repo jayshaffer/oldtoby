@@ -20,12 +20,12 @@ This is the composed master task list for the pipeline orchestrator system. Each
 > See [review-agents/tasks.md](review-agents/tasks.md) — Tasks 1–7
 
 - [x] Create `config/agent-profiles.md` with all 5 role definitions
-- [ ] Create `.claude/commands/agent-pm.md` (PM agent — PRD generation, re-entry handling)
-- [ ] Create `.claude/commands/agent-market.md` (Market agent — market-analysis.md, delegation)
-- [ ] Create `.claude/commands/agent-tech.md` (Tech agent — solution-doc.md, delegation)
-- [ ] Create `.claude/commands/agent-cfo.md` (CFO agent — financial-assessment.md, delegation)
-- [ ] Add refresh pass behavior to all agents
-- [ ] Test review agents (artifact creation, delegation, refresh, re-entry)
+- [x] Create `.claude/commands/agent-pm.md` (PM agent — PRD generation, re-entry handling)
+- [x] Create `.claude/commands/agent-market.md` (Market agent — market-analysis.md, delegation)
+- [x] Create `.claude/commands/agent-tech.md` (Tech agent — solution-doc.md, delegation)
+- [x] Create `.claude/commands/agent-cfo.md` (CFO agent — financial-assessment.md, delegation)
+- [x] Add refresh pass behavior to all agents
+- [x] Test review agents (artifact creation, delegation, refresh, re-entry)
 
 ## Phase 4: Decision Agent & Refinement
 > See [decision-and-refinement/tasks.md](decision-and-refinement/tasks.md) — Tasks 1–4
