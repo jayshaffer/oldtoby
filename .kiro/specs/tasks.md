@@ -30,10 +30,10 @@ This is the composed master task list for the pipeline orchestrator system. Each
 ## Phase 4: Decision Agent & Refinement
 > See [decision-and-refinement/tasks.md](decision-and-refinement/tasks.md) — Tasks 1–4
 
-- [ ] Create `.claude/commands/agent-decision.md` (verdict counting, promote/kill/send-back, circuit breaker, bloat detection)
-- [ ] Create `.claude/commands/send-back.md` (move from review to pipeline, registry update)
-- [ ] Implement downstream cascade support (refresh pass routing, escalation)
-- [ ] Test decision agent (promote, send-back, circuit breaker, cascade, re-entry)
+- [x] Create `.claude/commands/agent-decision.md` (verdict counting, promote/kill/send-back, circuit breaker, bloat detection)
+- [x] Create `.claude/commands/send-back.md` (move from review to pipeline, registry update)
+- [x] Implement downstream cascade support (refresh pass routing, escalation)
+- [x] Test decision agent (promote, send-back, circuit breaker, cascade, re-entry)
 
 ## Phase 5: Pipeline Orchestrator
 > See [pipeline-orchestrator/tasks.md](pipeline-orchestrator/tasks.md) — Tasks 2–4
